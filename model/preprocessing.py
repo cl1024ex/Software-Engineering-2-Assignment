@@ -60,7 +60,9 @@ print(X_processed.shape)
 
 # Show the first 5 processed rows
 processed_df = pd.DataFrame(
-    X_processed.toarray() if hasattr(X_processed, "toarray") else X_processed,
+    X_processed.toarray() 
+    if hasattr(X_processed, "toarray") 
+    else X_processed,
     columns=columnTransformer.get_feature_names_out()
 )
 
