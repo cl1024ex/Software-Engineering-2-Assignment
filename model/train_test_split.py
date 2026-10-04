@@ -11,14 +11,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 
-# Fit preprocessing only on training data
+# Fit preprocessing on training data
 X_train_processed = columnTransformer.fit_transform(X_train)
 
 # Apply the same preprocessing to test data
 X_test_processed = columnTransformer.transform(X_test)
 
 
-# Display results
+# Displays results
 print("\nTraining data:")
 print(X_train.shape)
 
