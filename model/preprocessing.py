@@ -41,30 +41,30 @@ columnTransformer = ColumnTransformer(
 )
 
 # Appling the preprocessing
-X_processed = columnTransformer.fit_transform(X)
+#X_processed = columnTransformer.fit_transform(X)
 
-print("\nOriginal X columns:")
-print(X.columns.tolist())
+# print("\nOriginal X columns:")
+# print(X.columns.tolist())
 
-print("\nTarget column:")
-print(y.name)
+# print("\nTarget column:")
+# print(y.name)
 
-print("\nTransformed columns:")
-print(columnTransformer.get_feature_names_out())
+# print("\nTransformed columns:")
+# print(columnTransformer.get_feature_names_out())
 
-print("\nOriginal X shape:")
-print(X.shape)
+# print("\nOriginal X shape:")
+# print(X.shape)
 
-print("\nProcessed X shape:")
-print(X_processed.shape)
+# print("\nProcessed X shape:")
+# print(X_processed.shape)
 
-# Show the first 5 processed rows
-processed_df = pd.DataFrame(
-    X_processed.toarray() 
-    if hasattr(X_processed, "toarray") 
-    else X_processed,
-    columns=columnTransformer.get_feature_names_out()
-)
+# # Show the first 5 processed rows
+# processed_df = pd.DataFrame(
+#     X_processed.toarray() 
+#     if hasattr(X_processed, "toarray") 
+#     else X_processed,
+#     columns=columnTransformer.get_feature_names_out()
+# )
 
-print("\nFirst 5 processed rows:")
-print(processed_df.head())
+# print("\nFirst 5 processed rows:")
+# print(processed_df.head())
