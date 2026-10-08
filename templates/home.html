@@ -1,0 +1,364 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<div class="container">
+
+```
+<div class="header">
+    <h1>Car Price Predictor</h1>
+    <p>Enter the details of the car to receive an estimated price.</p>
+</div>
+
+
+<form method="POST">
+
+    <!-- Basic Information -->
+    <div class="form-section">
+
+        <h2>Basic Information</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="make">Make</label>
+                <input
+                    type="text"
+                    id="make"
+                    name="make"
+                    placeholder="e.g. BMW"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input
+                    type="text"
+                    id="model"
+                    name="model"
+                    placeholder="e.g. 1 Series M"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input
+                    type="number"
+                    id="year"
+                    name="year"
+                    placeholder="e.g. 2011"
+                    required
+                >
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Engine Information -->
+    <div class="form-section">
+
+        <h2>Engine Information</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="engine_fuel_type">
+                    Engine Fuel Type
+                </label>
+
+                <select
+                    id="engine_fuel_type"
+                    name="engine_fuel_type"
+                    required
+                >
+                    <option value="">
+                        Select fuel type
+                    </option>
+
+                    <option value="diesel">
+                        Diesel
+                    </option>
+
+                    <option value="electric">
+                        Electric
+                    </option>
+
+                    <option value="flex-fuel">
+                        Flex Fuel
+                    </option>
+
+                    <option value="natural gas">
+                        Natural Gas
+                    </option>
+
+                    <option value="premium unleaded (required)">
+                        Premium Unleaded
+                    </option>
+
+                    <option value="regular unleaded">
+                        Regular Unleaded
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="engine_hp">
+                    Engine HP
+                </label>
+
+                <input
+                    type="number"
+                    id="engine_hp"
+                    name="engine_hp"
+                    placeholder="e.g. 335"
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="engine_cylinders">
+                    Engine Cylinders
+                </label>
+
+                <input
+                    type="number"
+                    id="engine_cylinders"
+                    name="engine_cylinders"
+                    placeholder="e.g. 6"
+                >
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Transmission and Drivetrain -->
+    <div class="form-section">
+
+        <h2>Transmission and Drivetrain</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="transmission_type">
+                    Transmission Type
+                </label>
+
+                <select
+                    id="transmission_type"
+                    name="transmission_type"
+                    required
+                >
+                    <option value="">
+                        Select transmission
+                    </option>
+
+                    <option value="MANUAL">
+                        Manual
+                    </option>
+
+                    <option value="AUTOMATIC">
+                        Automatic
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="driven_wheels">
+                    Driven Wheels
+                </label>
+
+                <input
+                    type="text"
+                    id="driven_wheels"
+                    name="driven_wheels"
+                    placeholder="e.g. rear wheel drive"
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="number_of_doors">
+                    Number of Doors
+                </label>
+
+                <select
+                    id="number_of_doors"
+                    name="number_of_doors"
+                >
+                    <option value="">
+                        Select number of doors
+                    </option>
+
+                    <option value="2">
+                        2
+                    </option>
+
+                    <option value="3">
+                        3
+                    </option>
+
+                    <option value="4">
+                        4
+                    </option>
+
+                    <option value="5">
+                        5
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Vehicle Information -->
+    <div class="form-section">
+
+        <h2>Vehicle Information</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="market_category">
+                    Market Category
+                </label>
+
+                <input
+                    type="text"
+                    id="market_category"
+                    name="market_category"
+                    placeholder="e.g. Luxury"
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="vehicle_size">
+                    Vehicle Size
+                </label>
+
+                <select
+                    id="vehicle_size"
+                    name="vehicle_size"
+                >
+                    <option value="">
+                        Select vehicle size
+                    </option>
+
+                    <option value="Compact">
+                        Compact
+                    </option>
+
+                    <option value="Midsize">
+                        Midsize
+                    </option>
+
+                    <option value="Large">
+                        Large
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="vehicle_style">
+                    Vehicle Style
+                </label>
+
+                <input
+                    type="text"
+                    id="vehicle_style"
+                    name="vehicle_style"
+                    placeholder="e.g. Coupe"
+                >
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Fuel Economy and Popularity -->
+    <div class="form-section">
+
+        <h2>Fuel Economy and Popularity</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="highway_mpg">
+                    Highway MPG
+                </label>
+
+                <input
+                    type="number"
+                    id="highway_mpg"
+                    name="highway_mpg"
+                    placeholder="e.g. 26"
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="city_mpg">
+                    City MPG
+                </label>
+
+                <input
+                    type="number"
+                    id="city_mpg"
+                    name="city_mpg"
+                    placeholder="e.g. 19"
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="popularity">
+                    Popularity
+                </label>
+
+                <input
+                    type="number"
+                    id="popularity"
+                    name="popularity"
+                    placeholder="e.g. 3916"
+                >
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Submit Button -->
+    <div class="submit-section">
+
+        <button
+            type="submit"
+            class="predict-button"
+            style="margin-top: 10mm;"
+        >
+            Predict Car Price
+        </button>
+
+    </div>
+
+</form>
+```
+
+</div>
+
+{% endblock %}
