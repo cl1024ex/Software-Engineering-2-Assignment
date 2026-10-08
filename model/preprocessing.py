@@ -1,7 +1,7 @@
+import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
-
 
 # first will clean the database 
 def load_data(path):
@@ -43,7 +43,7 @@ df = handle_missing_values(df)
 df = handle_duplicates(df)
 
 X = df.drop(columns=["Price"])  # dropping the target column for machine learning model
-y = df["Price"]
+y = np.log1p(df["Price"])  # Apply log transformation to the target variable to avoid variability and skewness in price data. This will help the model to learn better and make more accurate predictions.
 
 # Now we will preprocess the data using ColumnTransformer, OneHotEncoder, OrdinalEncoder, and StandardScaler
 # Each column split based on preprocessing type
