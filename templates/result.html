@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Prediction Result</h1>
+    <p>The predicted price is: £{{ "{:,.2f}".format(predicted_price) }}</p>
+     <br>
+
+    <a href="/">
+        Predict Another Car
+    </a>
+
+{% endblock %}
