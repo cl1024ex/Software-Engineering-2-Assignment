@@ -54,7 +54,7 @@ pip install -r requirements.txt
 ## Run the Application
 
 ```powershell
-.\.venv\Scripts\python.exe app.py
+python app.py
 ```
 
 The Flask application allows users to enter vehicle details and receive an estimated vehicle price.
@@ -65,7 +65,7 @@ The Flask application allows users to enter vehicle details and receive an estim
 Run the automated tests using:
 
 ```powershell
-python.exe -m pytest
+python -m pytest
 ```
 
 ## Limitations
