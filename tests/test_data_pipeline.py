@@ -1,9 +1,13 @@
+"""Check the generated master dataset is complete and internally consistent."""
+
 from datetime import date
 
 from model.data_loader import build_master_database, master_columns
 
 
 def test_master_database_is_clean_and_contains_all_brands():
+    """Verify the merged dataset has expected columns, brands, and clean values."""
+
     master = build_master_database(output_path=None)
 
     assert master.columns.tolist() == master_columns

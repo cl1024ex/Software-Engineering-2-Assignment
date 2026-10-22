@@ -1,3 +1,5 @@
+"""Clean source car listings and build the shared master dataset."""
+
 from datetime import date
 from pathlib import Path
 import pandas as pd
@@ -38,6 +40,8 @@ categorical_columns = ["brand", "model", "transmission", "fuel_type"]
 
 
 def _load_source(path):
+    """Normalize one source CSV and return its standard set of columns."""
+
     is_unclean = path.name.startswith("unclean ")
     source_name = path.stem.removeprefix("unclean ")
     frame = pd.read_csv(path, encoding="utf-8", encoding_errors="replace")

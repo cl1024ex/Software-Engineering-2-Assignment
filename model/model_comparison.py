@@ -1,3 +1,5 @@
+"""Compare regression algorithms using the shared held-out test set."""
+
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor

@@ -1,3 +1,5 @@
+"""Search random-forest hyperparameters with cross-validation."""
+
 import numpy as np
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -60,6 +62,8 @@ random_forest_grid.fit(
 #Show best results for each model based on the scoring metrics
 
 def show_best_results(grid, model_name):
+    """Print the best parameter set and score for each configured metric."""
+
     results = grid.cv_results_
     print("\n==============================")
     print(model_name)

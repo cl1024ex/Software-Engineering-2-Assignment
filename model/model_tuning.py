@@ -1,4 +1,4 @@
-#further tuning for Random forest metrics
+"""Compare additional random-forest settings on the held-out test set."""
 
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
@@ -50,6 +50,7 @@ randomForestTuning = {
 
 
 # Train and evaluate each Random Forest
+# Scores are calculated on the log-transformed target used during training.
 
 for name, model in randomForestTuning.items():
 

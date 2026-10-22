@@ -1,3 +1,5 @@
+"""Split the dataset and fit preprocessing without leaking test data."""
+
 from sklearn.model_selection import train_test_split
 from preprocessing import X, y, columnTransformer
 

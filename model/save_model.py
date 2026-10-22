@@ -1,3 +1,5 @@
+"""Persist the trained regressor and fitted preprocessing pipeline."""
+
 import joblib
 from pathlib import Path
 

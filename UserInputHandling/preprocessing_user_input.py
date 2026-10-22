@@ -1,3 +1,5 @@
+"""Validate and normalize car details submitted through the web form."""
+
 from datetime import date
 
 import numpy as np
@@ -16,6 +18,8 @@ BRANDS = sorted(BRAND_LOOKUP.values())
 
 
 class UserInputValidationError(ValueError):
+    """Raised when submitted car details fail user-facing validation."""
+
     pass
 
 
@@ -24,6 +28,7 @@ categorical_columns = ["brand", "model", "transmission", "fuel_type"]
 
 
 def prepare_user_input(user_input):
+    """Return model-ready input, rejecting invalid brands and years."""
 
     # Create a copy so the original data is not changed
     user_input = user_input.copy()

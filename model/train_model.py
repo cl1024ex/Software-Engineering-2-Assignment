@@ -1,3 +1,5 @@
+"""Train the selected random-forest regressor on processed training data."""
+
 from sklearn.ensemble import RandomForestRegressor
 from train_test_split import X_train_processed, y_train, X_test_processed, y_test
 

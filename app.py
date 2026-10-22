@@ -1,3 +1,5 @@
+"""Serve the car-price prediction form and return model estimates."""
+
 from flask import Flask, render_template, request
 import joblib
 import pandas as pd
@@ -20,6 +22,7 @@ preprocessing = joblib.load(PROJECT_ROOT / "Saved model" / "preprocessing.pkl")
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    """Render the form or validate submitted details and show a prediction."""
 
     if request.method == "POST":
 
