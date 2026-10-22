@@ -10,21 +10,15 @@ from UserInputHandling.preprocessing_user_input import (
 
 def make_user_input(**overrides):
     values = {
-        "Make": "BMW",
-        "Model": "1 Series M",
-        "Year": "2011",
-        "Engine Fuel Type": "premium unleaded (required)",
-        "Engine HP": "335",
-        "Engine Cylinders": "6",
-        "Transmission Type": "MANUAL",
-        "Driven_Wheels": "rear wheel drive",
-        "Number of Doors": "2",
-        "Market Category": "",
-        "Vehicle Size": "Compact",
-        "Vehicle Style": "Coupe",
-        "highway MPG": "26",
-        "city mpg": "19",
-        "Popularity": "3916"
+        "brand": "BMW",
+        "model": "1 Series",
+        "year": "2011",
+        "transmission": "Manual",
+        "mileage": "25000",
+        "fuel_type": "Petrol",
+        "tax": "150",
+        "mpg": "55.4",
+        "engine_size": "2.0"
     }
     values.update(overrides)
     return pd.DataFrame([values])
@@ -33,91 +27,80 @@ def make_user_input(**overrides):
 def test_numeric_input_is_converted():
     result = prepare_user_input(make_user_input())
 
-    assert pd.api.types.is_numeric_dtype(result["Engine HP"])
-    assert result.loc[0, "Engine HP"] == 335
+    assert pd.api.types.is_numeric_dtype(result["engine_size"])
+    assert result.loc[0, "engine_size"] == 2.0
 
 
 def test_invalid_numeric_values_are_replaced_with_medians():
     original = make_user_input(
-        **{"Engine HP": "", "Engine Cylinders": "unknown"}
+        **{"mileage": "", "engine_size": "unknown"}
     )
 
     result = prepare_user_input(original)
 
-    for column in ["Engine HP", "Engine Cylinders"]:
+    for column in ["mileage", "engine_size"]:
         assert result.loc[0, column] == result[column].median()
-    assert original.loc[0, "Engine HP"] == ""
+    assert original.loc[0, "mileage"] == ""
 
 
 def test_infinite_numeric_values_are_replaced_with_medians():
-    result = prepare_user_input(make_user_input(**{"Engine HP": "inf"}))
+    result = prepare_user_input(make_user_input(**{"mileage": "inf"}))
 
-    assert result.loc[0, "Engine HP"] == result["Engine HP"].median()
+    assert result.loc[0, "mileage"] == result["mileage"].median()
 
 
 def test_missing_columns_are_filled_with_safe_defaults():
     result = prepare_user_input(
-        pd.DataFrame([{"Make": "BMW", "Year": "2011"}])
+        pd.DataFrame([{"brand": "BMW", "year": "2011"}])
     )
 
-    assert result.loc[0, "Make"] == "BMW"
-    assert result.loc[0, "Model"] == "Unknown"
-    assert result.loc[0, "Year"] == 2011
-    assert result.loc[0, "Vehicle Size"] in ["Compact", "Midsize", "Large"]
+    assert result.loc[0, "brand"] == "BMW"
+    assert result.loc[0, "transmission"] == "Unknown"
+    assert result.loc[0, "year"] == 2011
 
 
 def test_blank_categorical_values_are_replaced_with_unknown():
     result = prepare_user_input(
-        make_user_input(**{"Model": "  ", "Market Category": None})
+        make_user_input(**{"model": "  ", "fuel_type": None})
     )
 
-    assert result.loc[0, "Model"] == "Unknown"
-    assert result.loc[0, "Market Category"] == "Unknown"
+    assert result.loc[0, "model"] == "Unknown"
+    assert result.loc[0, "fuel_type"] == "Unknown"
 
 
 def test_unseen_categorical_values_remain_safe_strings():
     result = prepare_user_input(
-        make_user_input(**{"Model": "New Model"})
+        make_user_input(**{"model": "New Model"})
     )
 
-    assert result.loc[0, "Make"] == "BMW"
-    assert result.loc[0, "Model"] == "New Model"
+    assert result.loc[0, "brand"] == "BMW"
+    assert result.loc[0, "model"] == "New Model"
 
 
 def test_make_is_normalized_case_insensitively():
-    result = prepare_user_input(make_user_input(**{"Make": "  bmw  "}))
+    result = prepare_user_input(make_user_input(**{"brand": "  bmw  "}))
 
-    assert result.loc[0, "Make"] == "BMW"
+    assert result.loc[0, "brand"] == "BMW"
 
 
 def test_current_year_is_accepted():
-    result = prepare_user_input(make_user_input(Year=str(YEAR_MAX)))
+    result = prepare_user_input(make_user_input(year=str(YEAR_MAX)))
 
-    assert result.loc[0, "Year"] == YEAR_MAX
+    assert result.loc[0, "year"] == YEAR_MAX
 
 
 def test_unknown_make_is_rejected():
-    with pytest.raises(UserInputValidationError, match="available car makes"):
-        prepare_user_input(make_user_input(**{"Make": "randomletters"}))
+    with pytest.raises(UserInputValidationError, match="available car brands"):
+        prepare_user_input(make_user_input(**{"brand": "randomletters"}))
 
 
-@pytest.mark.parametrize("year", ["", "not a year", "7894512", "1989", "2026.5"])
+@pytest.mark.parametrize("year", ["", "not a year", "7894512", "1899", "2026.5"])
 def test_invalid_year_is_rejected(year):
     with pytest.raises(UserInputValidationError, match="whole number"):
-        prepare_user_input(make_user_input(Year=year))
+        prepare_user_input(make_user_input(year=year))
 
 
-def test_invalid_vehicle_size_uses_a_valid_default():
-    result = prepare_user_input(
-        make_user_input(**{"Vehicle Size": "aircraft"})
-    )
+def test_brand_is_trimmed_and_normalized_case_insensitively():
+    result = prepare_user_input(make_user_input(**{"brand": " bmw "}))
 
-    assert result.loc[0, "Vehicle Size"] in ["Compact", "Midsize", "Large"]
-
-
-def test_vehicle_size_is_normalized_case_insensitively():
-    result = prepare_user_input(
-        make_user_input(**{"Vehicle Size": " compact "})
-    )
-
-    assert result.loc[0, "Vehicle Size"] == "Compact"
+    assert result.loc[0, "brand"] == "BMW"

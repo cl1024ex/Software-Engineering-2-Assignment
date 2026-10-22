@@ -2,23 +2,20 @@ from flask import Flask, render_template, request
 import joblib
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
-from UserInputHandling.preprocessing_user_input import (
-    YEAR_MAX,
-    YEAR_MIN,
-    UserInputValidationError,
-    prepare_user_input
-)
+from UserInputHandling.preprocessing_user_input import BRANDS, YEAR_MAX, YEAR_MIN, UserInputValidationError, prepare_user_input
 
 
 app = Flask(__name__)
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 
 # Load the trained model
-model = joblib.load("Saved model/model.pkl")
+model = joblib.load(PROJECT_ROOT / "Saved model" / "model.pkl")
 
 # Load the fitted preprocessing
-preprocessing = joblib.load("Saved model/preprocessing.pkl")
+preprocessing = joblib.load(PROJECT_ROOT / "Saved model" / "preprocessing.pkl")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -29,21 +26,15 @@ def home():
         # Get values entered by the user
         user_input = pd.DataFrame([{
 
-            "Make": request.form.get("make", ""),
-            "Model": request.form.get("model", ""),
-            "Year": request.form.get("year", ""),
-            "Engine Fuel Type": request.form.get("engine_fuel_type", ""),
-            "Engine HP": request.form.get("engine_hp", ""),
-            "Engine Cylinders": request.form.get("engine_cylinders", ""),
-            "Transmission Type": request.form.get("transmission_type", ""),
-            "Driven_Wheels": request.form.get("driven_wheels", ""),
-            "Number of Doors": request.form.get("number_of_doors", ""),
-            "Market Category": request.form.get("market_category", ""),
-            "Vehicle Size": request.form.get("vehicle_size", ""),
-            "Vehicle Style": request.form.get("vehicle_style", ""),
-            "highway MPG": request.form.get("highway_mpg", ""),
-            "city mpg": request.form.get("city_mpg", ""),
-            "Popularity": request.form.get("popularity", "")
+            "brand": request.form.get("brand", ""),
+            "model": request.form.get("model", ""),
+            "year": request.form.get("year", ""),
+            "transmission": request.form.get("transmission", ""),
+            "mileage": request.form.get("mileage", ""),
+            "fuel_type": request.form.get("fuel_type", ""),
+            "tax": request.form.get("tax", ""),
+            "mpg": request.form.get("mpg", ""),
+            "engine_size": request.form.get("engine_size", "")
         }])
 
         try:
@@ -54,6 +45,7 @@ def home():
             return render_template(
                 "home.html",
                 input_error=input_error,
+                brands=BRANDS,
                 min_year=YEAR_MIN,
                 max_year=YEAR_MAX
             ), 400
@@ -64,6 +56,7 @@ def home():
                     "Some car details could not be processed. "
                     "Check the values and try again."
                 ),
+                brands=BRANDS,
                 min_year=YEAR_MIN,
                 max_year=YEAR_MAX
             ), 400
@@ -86,6 +79,7 @@ def home():
 
     return render_template(
         "home.html",
+        brands=BRANDS,
         min_year=YEAR_MIN,
         max_year=YEAR_MAX
     )

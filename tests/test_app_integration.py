@@ -26,21 +26,21 @@ def test_post_with_bad_car_values_still_returns_prediction(monkeypatch):
     response = client.post(
         "/",
         data={
-            "make": "BMW",
+            "brand": "BMW",
             "model": "Unlisted Model",
             "year": "2011",
-            "engine_hp": "infinity",
-            "vehicle_size": "not a vehicle size"
+            "mileage": "infinity",
+            "fuel_type": "Electric"
         }
     )
 
     assert response.status_code == 200
     assert b"12,500.00" in response.data
-    assert preprocessor.user_input.loc[0, "Make"] == "BMW"
-    assert preprocessor.user_input.loc[0, "Year"] == 2011
-    assert preprocessor.user_input.loc[0, "Vehicle Size"] in [
-        "Compact", "Midsize", "Large"
-    ]
+    assert preprocessor.user_input.loc[0, "brand"] == "BMW"
+    assert preprocessor.user_input.loc[0, "year"] == 2011
+    assert preprocessor.user_input.loc[0, "mileage"] == preprocessor.user_input[
+        "mileage"
+    ].median()
 
 
 def test_post_with_unprocessable_input_shows_recoverable_error(monkeypatch):
@@ -53,7 +53,7 @@ def test_post_with_unprocessable_input_shows_recoverable_error(monkeypatch):
 
     response = client.post(
         "/",
-        data={"make": "BMW", "year": "2011"}
+        data={"brand": "BMW", "year": "2011"}
     )
 
     assert response.status_code == 400
@@ -63,22 +63,22 @@ def test_post_with_unprocessable_input_shows_recoverable_error(monkeypatch):
 def test_post_with_unknown_make_shows_validation_error():
     response = car_app.app.test_client().post(
         "/",
-        data={"make": "randomletters", "year": "2011"}
+        data={"brand": "randomletters", "year": "2011"}
     )
 
     assert response.status_code == 400
-    assert b"Please enter a make from the available car makes" in response.data
+    assert b"Please select a brand from the available car brands" in response.data
 
 
 def test_post_with_out_of_range_year_shows_validation_error():
     response = car_app.app.test_client().post(
         "/",
-        data={"make": "BMW", "year": "7894512"}
+        data={"brand": "BMW", "year": "7894512"}
     )
 
     assert response.status_code == 400
     assert (
-        f"Year must be a whole number between 1990 and {car_app.YEAR_MAX}."
+        f"Year must be a whole number between {car_app.YEAR_MIN} and {car_app.YEAR_MAX}."
         .encode()
         in response.data
     )
@@ -91,8 +91,8 @@ def test_post_accepts_current_year(monkeypatch):
 
     response = car_app.app.test_client().post(
         "/",
-        data={"make": "BMW", "year": str(car_app.YEAR_MAX)}
+        data={"brand": "BMW", "year": str(car_app.YEAR_MAX)}
     )
 
     assert response.status_code == 200
-    assert preprocessor.user_input.loc[0, "Year"] == car_app.YEAR_MAX
+    assert preprocessor.user_input.loc[0, "year"] == car_app.YEAR_MAX

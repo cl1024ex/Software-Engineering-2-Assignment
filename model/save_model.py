@@ -1,8 +1,10 @@
-#saving model and preprocessing so it can be used and called upon in flask app
-
 import joblib
+from pathlib import Path
+
 from train_model import model
 from train_test_split import columnTransformer
 
-joblib.dump(model, "../Saved model/model.pkl")
-joblib.dump(columnTransformer, "../Saved model/preprocessing.pkl")
+saved_model_directory = Path(__file__).resolve().parents[1] / "Saved model"
+saved_model_directory.mkdir(parents=True, exist_ok=True)
+joblib.dump(model, saved_model_directory / "model.pkl")
+joblib.dump(columnTransformer, saved_model_directory / "preprocessing.pkl")
