@@ -39,7 +39,7 @@ numeric_columns = ["year", "price", "mileage", "tax", "mpg", "engine_size"]
 categorical_columns = ["brand", "model", "transmission", "fuel_type"]
 
 
-def _load_source(path):
+def load_source(path):
     """This function cleans and standardises all datasets into a unified format adding additional cleaning steps for the two unclean datasets."""
 
     is_unclean = path.name.startswith("unclean ")
@@ -100,7 +100,7 @@ def build_master_database(output_path=master_database_path):
         if path.name != master_database_path.name
     )
     frames = [
-        _load_source(path).dropna(axis=1, how="all")
+        load_source(path).dropna(axis=1, how="all")
         for path in source_paths
     ]
     master = pd.concat(frames, ignore_index=True)
