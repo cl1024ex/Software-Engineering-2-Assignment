@@ -21,33 +21,6 @@ scoring = {
     "R2": "r2"
 }
 
-# Decision tree fine tuning using GridSearchCV
-
-# decision_tree = DecisionTreeRegressor(random_state=42)
-
-
-# decision_tree_parameters = {
-#     "max_depth": [10, 15, 20, 25, 30, None],
-#     "min_samples_split": [2, 5, 10, 20],
-#     "min_samples_leaf": [1, 2, 5, 10]
-# }
-
-# decision_tree_grid = GridSearchCV(
-#     estimator=decision_tree,
-#     param_grid=decision_tree_parameters,
-#     scoring=scoring,
-#     cv=5,
-#     n_jobs=-1,
-#     refit=False
-# )
-
-# print("Tuning Decision Tree...")
-
-
-# decision_tree_grid.fit(
-#     X_train_processed,
-#     y_train
-# )
 
 #Radom forest fine tuning using GridSearchCV
 
@@ -119,11 +92,6 @@ def show_best_results(grid, model_name):
     print("Parameters:", results["params"][index])
     print("R²:", results["mean_test_R2"][index])
 
-
-# show_best_results(
-#     decision_tree_grid,
-#     "DECISION TREE"
-# )
 
 show_best_results(
     random_forest_grid,
