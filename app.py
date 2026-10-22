@@ -16,14 +16,14 @@ from UserInputHandling.preprocessing_user_input import (
 
 
 app = Flask(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parent
+project_root = Path(__file__).resolve().parent
 
 
 # Load the trained model
-model = joblib.load(PROJECT_ROOT / "Saved model" / "model.pkl")
+model = joblib.load(project_root / "Saved model" / "model.pkl")
 
 # Load the fitted preprocessing
-preprocessing = joblib.load(PROJECT_ROOT / "Saved model" / "preprocessing.pkl")
+preprocessing = joblib.load(project_root / "Saved model" / "preprocessing.pkl")
 
 
 @app.route("/", methods=["GET", "POST"])

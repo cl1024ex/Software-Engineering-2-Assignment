@@ -19,7 +19,6 @@ brands = sorted(brand_lookup.values())
 
 class UserInputValidationError(ValueError):
     """Raised when submitted car details fail user-facing validation."""
-
     pass
 
 
