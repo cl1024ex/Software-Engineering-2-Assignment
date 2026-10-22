@@ -8,13 +8,13 @@ import pandas as pd
 from model.data_loader import load_master_database
 
 df = load_master_database()
-YEAR_MIN = int(df["year"].min())
-YEAR_MAX = date.today().year
-BRAND_LOOKUP = {
+year_min = int(df["year"].min())
+year_max = date.today().year
+brand_lookup = {
     brand.strip().casefold(): brand
     for brand in df["brand"].dropna().unique()
 }
-BRANDS = sorted(BRAND_LOOKUP.values())
+brands = sorted(brand_lookup.values())
 
 
 class UserInputValidationError(ValueError):
@@ -41,22 +41,22 @@ def prepare_user_input(user_input):
     brand_values = user_input["brand"].map(
         lambda value: str(value).strip().casefold() if pd.notna(value) else ""
     )
-    if not brand_values.isin(BRAND_LOOKUP).all():
+    if not brand_values.isin(brand_lookup).all():
         raise UserInputValidationError(
             "Please select a brand from the available car brands."
         )
-    user_input["brand"] = brand_values.map(BRAND_LOOKUP)
+    user_input["brand"] = brand_values.map(brand_lookup)
 
     year_values = pd.to_numeric(user_input["year"], errors="coerce")
     valid_years = (
         year_values.notna()
         & np.isfinite(year_values)
         & year_values.mod(1).eq(0)
-        & year_values.between(YEAR_MIN, YEAR_MAX)
+        & year_values.between(year_min, year_max)
     )
     if not valid_years.all():
         raise UserInputValidationError(
-            f"Year must be a whole number between {YEAR_MIN} and {YEAR_MAX}."
+            f"Year must be a whole number between {year_min} and {year_max}."
         )
     user_input["year"] = year_values
 

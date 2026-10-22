@@ -9,15 +9,14 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 
 def load_data(path):
-    """Read a CSV dataset from the supplied path."""
-
+    """Read a CSV dataset from the master database."""
     return pd.read_csv(path)
 
 
 df = load_data("../data/database.csv")
 
 X = df.drop(columns=["price"])
-y = np.log1p(df["price"])  # Train on log prices; the app reverses this transform.
+y = np.log1p(df["price"])  # Train on log prices to reduce the effect of outliers and improve model performance.
 
 numerical_columns = [
     "year",

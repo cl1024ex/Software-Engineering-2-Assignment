@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 
 from UserInputHandling.preprocessing_user_input import (
-    YEAR_MAX,
+    year_max,
     UserInputValidationError,
     prepare_user_input
 )
@@ -104,9 +104,9 @@ def test_make_is_normalized_case_insensitively():
 def test_current_year_is_accepted():
     """Check the current calendar year passes year validation."""
 
-    result = prepare_user_input(make_user_input(year=str(YEAR_MAX)))
+    result = prepare_user_input(make_user_input(year=str(year_max)))
 
-    assert result.loc[0, "year"] == YEAR_MAX
+    assert result.loc[0, "year"] == year_max
 
 
 def test_unknown_make_is_rejected():

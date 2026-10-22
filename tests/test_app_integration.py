@@ -100,7 +100,7 @@ def test_post_with_out_of_range_year_shows_validation_error():
 
     assert response.status_code == 400
     assert (
-        f"Year must be a whole number between {car_app.YEAR_MIN} and {car_app.YEAR_MAX}."
+        f"Year must be a whole number between {car_app.year_min} and {car_app.year_max}."
         .encode()
         in response.data
     )
@@ -115,8 +115,8 @@ def test_post_accepts_current_year(monkeypatch):
 
     response = car_app.app.test_client().post(
         "/",
-        data={"brand": "BMW", "year": str(car_app.YEAR_MAX)}
+        data={"brand": "BMW", "year": str(car_app.year_max)}
     )
 
     assert response.status_code == 200
-    assert preprocessor.user_input.loc[0, "year"] == car_app.YEAR_MAX
+    assert preprocessor.user_input.loc[0, "year"] == car_app.year_max

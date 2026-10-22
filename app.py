@@ -6,7 +6,13 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-from UserInputHandling.preprocessing_user_input import BRANDS, YEAR_MAX, YEAR_MIN, UserInputValidationError, prepare_user_input
+from UserInputHandling.preprocessing_user_input import (
+    UserInputValidationError,
+    brands,
+    prepare_user_input,
+    year_max,
+    year_min,
+)
 
 
 app = Flask(__name__)
@@ -48,9 +54,9 @@ def home():
             return render_template(
                 "home.html",
                 input_error=input_error,
-                brands=BRANDS,
-                min_year=YEAR_MIN,
-                max_year=YEAR_MAX
+                brands=brands,
+                min_year=year_min,
+                max_year=year_max
             ), 400
         except (TypeError, ValueError, OverflowError):
             return render_template(
@@ -59,9 +65,9 @@ def home():
                     "Some car details could not be processed. "
                     "Check the values and try again."
                 ),
-                brands=BRANDS,
-                min_year=YEAR_MIN,
-                max_year=YEAR_MAX
+                brands=brands,
+                min_year=year_min,
+                max_year=year_max
             ), 400
 
         prediction = model.predict(processed_input)
@@ -82,9 +88,9 @@ def home():
 
     return render_template(
         "home.html",
-        brands=BRANDS,
-        min_year=YEAR_MIN,
-        max_year=YEAR_MAX
+        brands=brands,
+        min_year=year_min,
+        max_year=year_max
     )
 
 
