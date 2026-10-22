@@ -51,13 +51,6 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-If required, retrieve the model files using Git LFS:
-
-```bash
-git lfs install
-git lfs pull
-```
-
 ## Run the Application
 
 ```powershell
@@ -66,19 +59,13 @@ git lfs pull
 
 The Flask application allows users to enter vehicle details and receive an estimated vehicle price.
 
-## Rebuild Data and Model
-
-```powershell
-.\.venv\Scripts\python.exe -m model.data_loader
-.\.venv\Scripts\python.exe -m model.save_model
-```
 
 ## Testing
 
 Run the automated tests using:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest
+python.exe -m pytest
 ```
 
 ## Limitations
