@@ -1,12 +1,12 @@
 from datetime import date
 
-from model.data_loader import MASTER_COLUMNS, build_master_database
+from model.data_loader import build_master_database, master_columns
 
 
 def test_master_database_is_clean_and_contains_all_brands():
     master = build_master_database(output_path=None)
 
-    assert master.columns.tolist() == MASTER_COLUMNS
+    assert master.columns.tolist() == master_columns
     assert not master.isna().any().any()
     assert not master.duplicated().any()
     assert (master["price"] > 0).all()

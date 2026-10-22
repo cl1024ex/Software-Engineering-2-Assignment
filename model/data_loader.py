@@ -3,11 +3,11 @@ from pathlib import Path
 import pandas as pd
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DATA_DIRECTORY = PROJECT_ROOT / "data"
-MASTER_DATABASE_PATH = DATA_DIRECTORY / "database.csv"
+project_root = Path(__file__).resolve().parents[1]
+data_directory = project_root / "data"
+master_database_path = data_directory / "database.csv"
 
-BRAND_NAMES = {
+brand_names = {
     "audi": "Audi",
     "bmw": "BMW",
     "cclass": "Mercedes-Benz",
@@ -21,7 +21,7 @@ BRAND_NAMES = {
     "vw": "Volkswagen",
 }
 
-MASTER_COLUMNS = [
+master_columns = [
     "brand",
     "model",
     "year",
@@ -33,8 +33,8 @@ MASTER_COLUMNS = [
     "mpg",
     "engine_size",
 ]
-NUMERIC_COLUMNS = ["year", "price", "mileage", "tax", "mpg", "engine_size"]
-CATEGORICAL_COLUMNS = ["brand", "model", "transmission", "fuel_type"]
+numeric_columns = ["year", "price", "mileage", "tax", "mpg", "engine_size"]
+categorical_columns = ["brand", "model", "transmission", "fuel_type"]
 
 
 def _load_source(path):
@@ -66,13 +66,13 @@ def _load_source(path):
     if tax_column and tax_column != "tax":
         frame = frame.rename(columns={tax_column: "tax"})
 
-    frame["brand"] = BRAND_NAMES[source_name]
-    for column in MASTER_COLUMNS:
+    frame["brand"] = brand_names[source_name]
+    for column in master_columns:
         if column not in frame:
             frame[column] = pd.NA
-    frame = frame[MASTER_COLUMNS].copy()
+    frame = frame[master_columns].copy()
 
-    for column in NUMERIC_COLUMNS:
+    for column in numeric_columns:
         values = (
             frame[column]
             .astype("string")
@@ -81,19 +81,19 @@ def _load_source(path):
         )
         frame[column] = pd.to_numeric(values, errors="coerce")
 
-    for column in CATEGORICAL_COLUMNS:
+    for column in categorical_columns:
         frame[column] = frame[column].astype("string").str.strip()
         frame[column] = frame[column].replace("", pd.NA)
 
     return frame
 
 
-def build_master_database(output_path=MASTER_DATABASE_PATH):
+def build_master_database(output_path=master_database_path):
     """Merge, clean, and optionally save all brand listings."""
     source_paths = sorted(
         path
-        for path in DATA_DIRECTORY.glob("*.csv")
-        if path.name != MASTER_DATABASE_PATH.name
+        for path in data_directory.glob("*.csv")
+        if path.name != master_database_path.name
     )
     frames = [
         _load_source(path).dropna(axis=1, how="all")
@@ -114,8 +114,8 @@ def build_master_database(output_path=MASTER_DATABASE_PATH):
         master[column] = master[column].fillna("Unknown")
 
     master["year"] = master["year"].astype(int)
-    master = master.drop_duplicates(subset=MASTER_COLUMNS).reset_index(drop=True)
-    master = master[MASTER_COLUMNS]
+    master = master.drop_duplicates(subset=master_columns).reset_index(drop=True)
+    master = master[master_columns]
 
     if output_path is not None:
         output_path = Path(output_path)
@@ -127,11 +127,11 @@ def build_master_database(output_path=MASTER_DATABASE_PATH):
 
 def load_master_database():
     """Load the saved master dataset, building it if it does not exist."""
-    if not MASTER_DATABASE_PATH.exists():
+    if not master_database_path.exists():
         return build_master_database()
-    return pd.read_csv(MASTER_DATABASE_PATH)
+    return pd.read_csv(master_database_path)
 
 
 if __name__ == "__main__":
     master = build_master_database()
-    print(f"Saved {len(master):,} cleaned listings to {MASTER_DATABASE_PATH}")
+    print(f"Saved {len(master):,} cleaned listings to {master_database_path}")
