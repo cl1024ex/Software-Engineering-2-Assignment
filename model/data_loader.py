@@ -40,7 +40,7 @@ categorical_columns = ["brand", "model", "transmission", "fuel_type"]
 
 
 def _load_source(path):
-    """Normalize one source CSV and return its standard set of columns."""
+    """This function cleans and standardises all datasets into a unified format adding additional cleaning steps for the two unclean datasets."""
 
     is_unclean = path.name.startswith("unclean ")
     source_name = path.stem.removeprefix("unclean ")
@@ -93,7 +93,7 @@ def _load_source(path):
 
 
 def build_master_database(output_path=master_database_path):
-    """Merge, clean, and optionally save all brand listings."""
+    """This function merges, cleans, and validates each dataset into a single master dataset."""
     source_paths = sorted(
         path
         for path in data_directory.glob("*.csv")
@@ -130,7 +130,7 @@ def build_master_database(output_path=master_database_path):
 
 
 def load_master_database():
-    """Load the saved master dataset, building it if it does not exist."""
+    """This function loads the saved master dataset, building it if it does not exist."""
     if not master_database_path.exists():
         return build_master_database()
     return pd.read_csv(master_database_path)
