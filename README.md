@@ -17,7 +17,7 @@ Four regression models were evaluated:
 - Random Forest Regression
 - Gradient Boosting Regression
 
-The models were compared using **MAE, RMSE, MAPE and R²**. Random Forest produced the strongest overall performance and was selected and tuned for the final system.
+The models were compared using **MSE,MAE, RMSE, MAPE and R²**. Random Forest produced the strongest overall performance and was selected and tuned for the final system.
 
 The trained model and preprocessing pipeline are saved in:
 
