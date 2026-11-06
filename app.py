@@ -6,13 +6,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-from UserInputHandling.preprocessing_user_input import (
-    UserInputValidationError,
-    brands,
-    prepare_user_input,
-    year_max,
-    year_min,
-)
+from UserInputHandling.preprocessing_user_input import UserInputValidationError, brands, prepare_user_input, year_max, year_min
 
 
 app = Flask(__name__)

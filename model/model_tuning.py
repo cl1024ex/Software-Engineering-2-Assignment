@@ -74,12 +74,11 @@ for name, model in randomForestTuning.items():
         predictions
     )
 
-    rmse = np.sqrt(
-        mean_squared_error(
-            y_test,
-            predictions
-        )
+    mse = mean_squared_error(
+        y_test,
+        predictions
     )
+    rmse = np.sqrt(mse)
 
     mape = mean_absolute_percentage_error(
         y_test,
@@ -91,6 +90,7 @@ for name, model in randomForestTuning.items():
         predictions
     )
 
+    print("MSE:", mse)
     print("MAE:", mae)
     print("RMSE:", rmse)
     print("MAPE:", mape)

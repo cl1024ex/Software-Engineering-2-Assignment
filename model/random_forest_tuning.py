@@ -15,6 +15,7 @@ from train_test_split import X_train_processed, y_train, X_test_processed, y_tes
 #R2: Coefficient of Determination
 
 scoring = {
+    "MSE": "neg_mean_squared_error",
     "MAE": "neg_mean_absolute_error",
     "RMSE": "neg_root_mean_squared_error",
     "MAPE": make_scorer(
@@ -71,6 +72,12 @@ def show_best_results(grid, model_name):
 
 
 #Show best results for each scoring metric
+    index = results["mean_test_MSE"].argmax()
+
+    print("\nBest MSE:")
+    print("Parameters:", results["params"][index])
+    print("MSE:", -results["mean_test_MSE"][index])
+
     index = results["mean_test_MAE"].argmax()
 
     print("\nBest MAE:")

@@ -28,5 +28,7 @@ for name, model in models.items():
     mape = mean_absolute_percentage_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
 
-    print(f"{name} - RMSE: {rmse:.2f}, MAE: {mae:.2f}, MAPE: {mape:.2f}", f"R^2: {r2:.2f}")
-
+    print(
+        f"{name} - MSE: {mse:.2f}, RMSE: {rmse:.2f}, MAE: {mae:.2f}, "
+        f"MAPE: {mape:.2f}, R^2: {r2:.2f}"
+    )

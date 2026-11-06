@@ -71,3 +71,7 @@ python -m pytest
 ## Limitations
 
 Predictions are indicative estimates based on historical vehicle data and should not be treated as guaranteed valuations. The proof of concept does not currently use live market data or automatically retrain the model.
+
+
+
+
